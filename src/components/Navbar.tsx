@@ -1,5 +1,3 @@
-import React from "react";
-import ThemeController from "./ThemeController";
 import { cn } from "../utils/cn";
 
 const Navbar = () => {
@@ -15,9 +13,6 @@ const Navbar = () => {
       <div className="navbar">
         <div className="flex-1">
           <a className="btn btn-ghost text-xl">LeetRandom</a>
-        </div>
-        <div className="flex-none">
-          <ThemeController />
         </div>
       </div>
     </div>

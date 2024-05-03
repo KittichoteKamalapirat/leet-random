@@ -24,7 +24,7 @@ const SuggestedProblems = () => {
   return (
     <div className="mt-12 w-full">
       <div className="prose">
-        <h1 className="text-white text-center">
+        <h1 className="text-white text-center dark:text-rose-500">
           Did you solve these questions?
         </h1>
       </div>
