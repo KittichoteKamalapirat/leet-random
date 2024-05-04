@@ -1,25 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 
-import {
-  LeetcodeQuestion,
-  getRandomQuestions,
-} from "../utils/getRandomQuestions";
+import useStore from "../lib/store";
+import { getRandomQuestions } from "../utils/getRandomQuestions";
 import QuestionCard from "./QuestionCard";
 
 const SuggestedProblems = () => {
-  const [randomQuestions, setRandomQuestions] = useState<LeetcodeQuestion[]>(
-    []
-  );
+  const { questions, set } = useStore((state) => state.questions);
+  const { problemSet } = useStore((state) => state.setting);
 
-  const randomizeQuestions = async () => {
-    const questions = await getRandomQuestions();
-
-    setRandomQuestions(questions);
-  };
+  const randomizeQuestions = useCallback(async () => {
+    const randomQuestions = await getRandomQuestions(problemSet);
+    set({ questions: randomQuestions });
+  }, []);
 
   useEffect(() => {
     randomizeQuestions();
-  }, []);
+  }, [randomizeQuestions, problemSet]);
 
   return (
     <div className="mt-12 w-full">
@@ -29,7 +25,7 @@ const SuggestedProblems = () => {
         </h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-12">
-        {randomQuestions?.map((problem) => (
+        {questions?.map((problem) => (
           <QuestionCard
             key={problem.text}
             className="bg-background-secondary px-4 py-2 my-2"
