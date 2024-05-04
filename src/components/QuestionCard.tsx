@@ -1,7 +1,7 @@
 import { FiExternalLink } from "react-icons/fi";
 import { cn } from "../utils/cn";
 import { getLevelColor } from "../utils/getLevelColor";
-import { Difficulty } from "../utils/getRandomQuestions";
+import { Difficulty } from "../types/Difficulty";
 
 interface Props {
   title: string;

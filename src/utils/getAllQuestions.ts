@@ -1,7 +1,6 @@
 import { ProblemSet } from "../lib/store";
+import { Difficulty } from "../types/Difficulty";
 import { getProblemSet } from "./getProblemSet";
-
-export type Difficulty = "Easy" | "Medium" | "Hard";
 
 export interface LeetcodeQuestion {
   category: string;
