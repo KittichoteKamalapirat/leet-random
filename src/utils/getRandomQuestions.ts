@@ -1,14 +1,7 @@
 import { ProblemSet } from "../lib/store";
 import { Difficulty } from "../types/Difficulty";
+import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 import { getProblemSet } from "./getProblemSet";
-
-export interface LeetcodeQuestion {
-  category: string;
-  href: string;
-  text: string;
-  difficulty: Difficulty;
-  isPremium: boolean;
-}
 
 export const getRandomQuestions = async (problemSet: ProblemSet) => {
   try {

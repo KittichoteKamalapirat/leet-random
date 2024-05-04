@@ -19,9 +19,7 @@ const SuggestedProblems = () => {
           <QuestionCard
             key={problem.text}
             className="bg-background-secondary px-4 py-2 my-2"
-            title={problem.text}
-            difficulty={problem.difficulty}
-            href={problem.href}
+            problem={problem}
           />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import flatten from "flat";
 import { create, GetState, SetState } from "zustand";
-import { LeetcodeQuestion } from "../utils/getRandomQuestions";
+import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 
 export type IStoreSet<Props = Record<string, any>> = (
   keyOrObj: Partial<Props> | keyof Props,
