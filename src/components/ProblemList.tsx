@@ -1,3 +1,4 @@
+import { FiExternalLink } from "react-icons/fi";
 import { useCallback, useEffect } from "react";
 
 import useStore from "../lib/store";
@@ -38,9 +39,26 @@ const ProblemList = () => {
           <tbody>
             {/* row 1 */}
             {allQuestions?.map((problem, index) => (
-              <tr key={problem.text}>
+              <tr
+                key={problem.text}
+                className="relative
+              "
+              >
                 <th>{index + 1}</th>
-                <td>{problem.text}</td>
+                <td>
+                  <a
+                    href={problem.href}
+                    target="_blank"
+                    aria-label={`${problem.text}(opens in new tab))`}
+                    className="inline-flex items-baseline font-medium leading-tight text-foreground-primary hover:text-primary focus-visible:text-primary  group/link text-base"
+                    rel="noreferrer noopener"
+                  >
+                    {/* make the entire card a link */}
+                    <span className="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block" />
+                    {problem.text}
+                    <FiExternalLink className="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none ml-1 translate-y-px" />
+                  </a>
+                </td>
                 <td>
                   <div
                     className={cn(

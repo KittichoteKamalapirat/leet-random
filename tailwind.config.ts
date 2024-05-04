@@ -1,6 +1,7 @@
 import daisyui from "daisyui";
 import typoTypo from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
+import colors from "tailwindcss/colors";
 
 const config: Config = {
   content: [
@@ -10,6 +11,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        background: {
+          primary: colors.neutral[900],
+        },
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -17,6 +23,7 @@ const config: Config = {
       },
     },
   },
+
   plugins: [typoTypo, daisyui],
 };
 export default config;

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import useStore from "../lib/store";
 import { randomizeQuestions } from "../services/randomizeQuestions";
 import QuestionCard from "./QuestionCard";
@@ -25,13 +26,17 @@ const SuggestedProblems = () => {
         ))}
       </div>
 
-      <div className="flex justify-center items-center">
+      <div className="flex flex-col justify-center gap-2 items-center">
         <button
           onClick={() => randomizeQuestions(problemSet)}
           className="btn btn-primary mt-12 btn-lg mx-auto"
         >
           Random questions
         </button>
+
+        <Link href="/list" className="btn btn-ghost btn-md mx-auto">
+          See full list
+        </Link>
       </div>
     </div>
   );

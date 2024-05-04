@@ -35,7 +35,7 @@ export default function Home() {
       randomizeQuestions(problemSet);
     }
     setTimeout(() => {
-      isFirstRender.current = false;
+      isFirstRender.current = false; // add delay so the next hook don't get called right away
     }, 500);
   }, []);
 

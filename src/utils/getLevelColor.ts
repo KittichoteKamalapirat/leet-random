@@ -4,7 +4,8 @@ export const getLevelColor = (level: Difficulty) => {
       return "badge-success";
     case "Medium":
       return "badge-warning";
-    case "Hard":
+    case "Ha bgrd":
+    default:
       return "badge-error";
   }
 };
