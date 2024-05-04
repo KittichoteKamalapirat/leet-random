@@ -1,4 +1,5 @@
 import { ProblemSet } from "../lib/store";
+import { getProblemSet } from "./getProblemSet";
 
 export type Difficulty = "Easy" | "Medium" | "Hard";
 
@@ -10,15 +11,6 @@ export interface LeetcodeQuestion {
   isPremium: boolean;
 }
 
-const getProblemSet = (problemSet: ProblemSet) => {
-  switch (problemSet) {
-    case "neet150":
-      return "/leetcode-problems/neetcode150.json";
-    case "blind75":
-    default:
-      return "/leetcode-problems/blind75.json";
-  }
-};
 export const getRandomQuestions = async (problemSet: ProblemSet) => {
   try {
     // Step 1: Read the JSON file from the public folder

@@ -2,6 +2,7 @@ import React from "react";
 import { Difficulty } from "../utils/getRandomQuestions";
 import { cn } from "../utils/cn";
 import Link from "next/link";
+import { getLevelColor } from "../utils/getLevelColor";
 
 interface Props {
   title: string;
@@ -10,16 +11,6 @@ interface Props {
   className?: string;
 }
 
-const getLevelColor = (level: Difficulty) => {
-  switch (level) {
-    case "Easy":
-      return "badge-success";
-    case "Medium":
-      return "badge-warning";
-    case "Hard":
-      return "badge-error";
-  }
-};
 const QuestionCard = ({ title, href, difficulty, className }: Props) => {
   return (
     <Link href={href} target="_blank">
@@ -33,9 +24,9 @@ const QuestionCard = ({ title, href, difficulty, className }: Props) => {
           <h2 className="card-title">{title}</h2>
 
           <div className="card-actions justify-end">
-            <button className={cn("badge badge-lg", getLevelColor(difficulty))}>
+            <div className={cn("badge badge-lg", getLevelColor(difficulty))}>
               {difficulty}
-            </button>
+            </div>
           </div>
         </div>
       </div>

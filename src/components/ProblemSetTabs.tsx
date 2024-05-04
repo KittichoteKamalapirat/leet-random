@@ -1,11 +1,13 @@
-import React from "react";
+import React, { HTMLAttributes } from "react";
 import useStore from "../lib/store";
 import { cn } from "../utils/cn";
 
-const ProblemSetTabs = () => {
+interface Props extends HTMLAttributes<HTMLDivElement> {}
+
+const ProblemSetTabs = ({ className, ...rest }: Props) => {
   const { problemSet, set } = useStore((state) => state.setting);
   return (
-    <div role="tablist" className="tabs tabs-boxed">
+    <div role="tablist" className={cn("tabs tabs-boxed", className)} {...rest}>
       <div
         role="tab"
         className={cn("tab", problemSet === "blind75" && "tab-active")}

@@ -11,7 +11,7 @@ const SuggestedProblems = () => {
   const randomizeQuestions = useCallback(async () => {
     const randomQuestions = await getRandomQuestions(problemSet);
     set({ questions: randomQuestions });
-  }, []);
+  }, [problemSet]);
 
   useEffect(() => {
     randomizeQuestions();
@@ -20,7 +20,7 @@ const SuggestedProblems = () => {
   return (
     <div className="mt-12 w-full">
       <div className="prose">
-        <h1 className="text-white text-center dark:text-rose-500">
+        <h1 className="text-white text-center">
           Did you solve these questions?
         </h1>
       </div>
