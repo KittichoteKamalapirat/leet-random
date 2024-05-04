@@ -1,21 +1,10 @@
-import { useCallback, useEffect } from "react";
-
 import useStore from "../lib/store";
-import { getRandomQuestions } from "../utils/getRandomQuestions";
+import { randomizeQuestions } from "../services/randomizeQuestions";
 import QuestionCard from "./QuestionCard";
 
 const SuggestedProblems = () => {
-  const { questions, set } = useStore((state) => state.questions);
+  const { randomQuestions } = useStore((state) => state.questions);
   const { problemSet } = useStore((state) => state.setting);
-
-  const randomizeQuestions = useCallback(async () => {
-    const randomQuestions = await getRandomQuestions(problemSet);
-    set({ questions: randomQuestions });
-  }, [problemSet]);
-
-  useEffect(() => {
-    randomizeQuestions();
-  }, [randomizeQuestions, problemSet]);
 
   return (
     <div className="mt-12 w-full">
@@ -25,7 +14,7 @@ const SuggestedProblems = () => {
         </h1>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-12">
-        {questions?.map((problem) => (
+        {randomQuestions?.map((problem) => (
           <QuestionCard
             key={problem.text}
             className="bg-background-secondary px-4 py-2 my-2"
@@ -38,7 +27,7 @@ const SuggestedProblems = () => {
 
       <div className="flex justify-center items-center">
         <button
-          onClick={randomizeQuestions}
+          onClick={() => randomizeQuestions(problemSet)}
           className="btn btn-primary mt-12 btn-lg mx-auto"
         >
           Random questions

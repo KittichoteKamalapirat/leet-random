@@ -1,20 +1,18 @@
 import { useCallback, useEffect } from "react";
 
 import useStore from "../lib/store";
-import { getRandomQuestions } from "../utils/getRandomQuestions";
-import QuestionCard from "./QuestionCard";
-import { getAllQuestions } from "../utils/getAllQuestions";
 import { cn } from "../utils/cn";
+import { getAllQuestions } from "../utils/getAllQuestions";
 import { getLevelColor } from "../utils/getLevelColor";
 import ProblemSetTabs from "./ProblemSetTabs";
 
 const ProblemList = () => {
-  const { questions, set } = useStore((state) => state.questions);
+  const { allQuestions, set } = useStore((state) => state.questions);
   const { problemSet } = useStore((state) => state.setting);
 
   const getQuestions = useCallback(async () => {
     const randomQuestions = await getAllQuestions(problemSet);
-    set({ questions: randomQuestions });
+    set({ allQuestions: randomQuestions });
   }, [problemSet]);
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const ProblemList = () => {
 
   return (
     <div className="mt-12 w-full">
-      <div className="prose">
+      <div className="prose mx-auto">
         <h1 className="text-white text-center">Questions</h1>
       </div>
       <ProblemSetTabs className="mt-8" />
@@ -39,7 +37,7 @@ const ProblemList = () => {
           </thead>
           <tbody>
             {/* row 1 */}
-            {questions?.map((problem, index) => (
+            {allQuestions?.map((problem, index) => (
               <tr key={problem.text}>
                 <th>{index + 1}</th>
                 <td>{problem.text}</td>

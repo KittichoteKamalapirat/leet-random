@@ -18,7 +18,8 @@ export type IStore = {
     problemSet: ProblemSet;
   }>;
   questions: PropsWithSet<{
-    questions: LeetcodeQuestion[];
+    randomQuestions: LeetcodeQuestion[];
+    allQuestions: LeetcodeQuestion[];
   }>;
 };
 
@@ -97,7 +98,8 @@ export const useStore = create<IStore>(
         set: factorySetFunc<IStore["questions"]>("questions", {
           unflatten: false,
         }),
-        questions: [],
+        randomQuestions: [],
+        allQuestions: [],
       },
     };
 
