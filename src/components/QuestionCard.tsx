@@ -2,9 +2,10 @@ import { useRef, useState } from "react";
 import { FaCode, FaYoutube } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { SiLeetcode } from "react-icons/si";
-import { LocalStorage } from "../enums/LocalStorage";
 import useStore from "../lib/store";
 import { getSolution } from "../services/getSolution";
+import { handleMarkDone } from "../services/handleMarkDone";
+import { handleMarkUnDone } from "../services/handleMarkUnDone";
 import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 import { cn } from "../utils/cn";
 import Checkbox from "./Checkbox";
@@ -35,28 +36,6 @@ const QuestionCard = ({ problem, className }: Props) => {
     setSolution(content);
   };
 
-  const handleMarkUnDone = async (slug: string) => {
-    if (!completedQuestions.includes(slug)) return;
-
-    const index = completedQuestions.findIndex((s) => s === slug);
-
-    completedQuestions.splice(index, 1);
-
-    setQuestions({ completedQuestions });
-    localStorage.setItem(
-      LocalStorage.CompletedQuestions,
-      JSON.stringify(completedQuestions)
-    );
-  };
-
-  const handleMarkDone = async (slug: string) => {
-    completedQuestions.push(slug);
-    setQuestions({ completedQuestions });
-    localStorage.setItem(
-      LocalStorage.CompletedQuestions,
-      JSON.stringify(completedQuestions)
-    );
-  };
   return (
     <div
       className={cn(
