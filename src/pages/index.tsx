@@ -11,6 +11,7 @@ import SuggestedProblems from "../components/SuggestedProblems";
 import { LocalStorage } from "../enums/LocalStorage";
 import { SessionStorage } from "../enums/SessionStorage";
 import { randomizeQuestions } from "../services/randomizeQuestions";
+import Modal from "../components/Modal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,13 +22,14 @@ export default function Home() {
     set: setQuestions,
   } = useStore((state) => state.questions);
 
+  const completeModalRef = useRef<HTMLDialogElement>(null);
+
   const [runConfetti, setRunConfetti] = useState<boolean>(false);
 
   const todaysDone = randomQuestions.every((q) =>
     completedQuestions.includes(q.slug)
   );
   const { width, height } = useWindowSize();
-  console.log("wid", width, height);
 
   const { problemSet, set: setSetting } = useStore((state) => state.setting);
 
@@ -74,7 +76,12 @@ export default function Home() {
 
   // confetti 5 secs
   useEffect(() => {
+    completeModalRef.current?.showModal();
+
+    if (!todaysDone) return;
+
     setRunConfetti(todaysDone);
+
     const timeoutId = setTimeout(() => setRunConfetti(false), 5000);
 
     return () => clearTimeout(timeoutId);
@@ -104,6 +111,13 @@ export default function Home() {
           />
         )}
       </div>
+
+      <Modal
+        emoji="🎉"
+        title="Great Job!"
+        content="You've completed todays questions. Come back and solve more questions tomorrow. Consistency is Key!"
+        ref={completeModalRef}
+      />
     </main>
   );
 }

@@ -364,7 +364,6 @@ const fileNames = [
 // Assuming `fileNames` is an array of strings available in this scope
 export const getSolution = async (slug: string): Promise<string> => {
   const fileName = fileNames.find((name) => name.includes(slug));
-  console.log("slug", slug);
 
   if (!fileName) {
     console.error("File not found for the provided slug:", slug);
@@ -378,7 +377,7 @@ export const getSolution = async (slug: string): Promise<string> => {
       return "An error occured";
     }
     const data = await response.text();
-    console.log("File content:", data);
+
     return data;
   } catch (error) {
     console.error("Error fetching file:", error);

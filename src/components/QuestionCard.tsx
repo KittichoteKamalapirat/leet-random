@@ -39,9 +39,8 @@ const QuestionCard = ({ problem, className }: Props) => {
     if (!completedQuestions.includes(slug)) return;
 
     const index = completedQuestions.findIndex((s) => s === slug);
-    console.log(completedQuestions);
+
     completedQuestions.splice(index, 1);
-    console.log(completedQuestions);
 
     setQuestions({ completedQuestions });
     localStorage.setItem(
@@ -86,7 +85,7 @@ const QuestionCard = ({ problem, className }: Props) => {
         {/* Bottom control */}
         <div className="flex justify-between">
           {/* left */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <a
               href={neetLink}
               target="_blank"
