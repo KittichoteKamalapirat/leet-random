@@ -26,9 +26,11 @@ export default function Home() {
 
   const [runConfetti, setRunConfetti] = useState<boolean>(false);
 
-  const todaysDone = randomQuestions.every((q) =>
-    completedQuestions.includes(q.slug)
-  );
+  const todaysDone =
+    randomQuestions && // could be empty array
+    randomQuestions.length &&
+    randomQuestions.every((q) => completedQuestions.includes(q.slug));
+
   const { width, height } = useWindowSize();
 
   const { problemSet, set: setSetting } = useStore((state) => state.setting);
@@ -76,10 +78,8 @@ export default function Home() {
 
   // confetti 5 secs
   useEffect(() => {
-    completeModalRef.current?.showModal();
-
     if (!todaysDone) return;
-
+    completeModalRef.current?.showModal();
     setRunConfetti(todaysDone);
 
     const timeoutId = setTimeout(() => setRunConfetti(false), 5000);

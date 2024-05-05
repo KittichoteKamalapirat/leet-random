@@ -14,7 +14,7 @@ const Checkbox = ({ checked = false, onClick, className, ...rest }: Props) => {
           type="checkbox"
           checked={checked}
           className="checkbox checkbox-accent"
-          onClick={onClick}
+          onChange={onClick}
         />
       </label>
     </div>

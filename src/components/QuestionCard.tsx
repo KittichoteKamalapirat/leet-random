@@ -27,7 +27,7 @@ const QuestionCard = ({ problem, className }: Props) => {
   const [solution, setSolution] = useState<string>("");
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  const isCompleted = completedQuestions.some((c) => c === slug);
+  const isCompleted = completedQuestions.includes(slug);
   const handleGetSolution = async (slug: string) => {
     // document.getElementById("solution").showModal();
     modalRef.current?.showModal();
