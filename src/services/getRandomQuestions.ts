@@ -4,7 +4,10 @@ import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 import { getProblemSet } from "../utils/getProblemSet";
 import { getTwoRandomNumsInRange } from "./getTwoRandomNumsInRange";
 
-export const getRandomQuestions = async (problemSet: ProblemSet) => {
+export const getRandomQuestions = async (
+  problemSet: ProblemSet,
+  solved: Array<string>
+) => {
   try {
     // Step 1: Read the JSON file from the public folder
     const response = await fetch(getProblemSet(problemSet));
@@ -16,16 +19,20 @@ export const getRandomQuestions = async (problemSet: ProblemSet) => {
     // Helper function to get a random question by difficulty
     const getRandomQuestionByDifficulty = (difficulty: Difficulty) => {
       const filteredQuestions = questions.filter(
-        (question) => question.difficulty === difficulty
+        (question) =>
+          question.difficulty === difficulty && !solved.includes(question.slug)
       );
 
+      // no unsolved questions for this level
+      if (filteredQuestions.length == 0) return [];
       if (difficulty === "Medium") {
         const [index1, index2] = getTwoRandomNumsInRange(
           filteredQuestions.length
         );
-        return [questions[index1], questions[index2]];
+        return [filteredQuestions[index1], filteredQuestions[index2]];
       }
-      const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
+      let randomIndex = Math.floor(Math.random() * filteredQuestions.length);
+
       return [filteredQuestions[randomIndex]];
     };
 

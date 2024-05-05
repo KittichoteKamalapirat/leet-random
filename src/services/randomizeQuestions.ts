@@ -4,7 +4,8 @@ import { getRandomQuestions } from "./getRandomQuestions";
 
 export const randomizeQuestions = async (problemSet: ProblemSet) => {
   useStore.getState().questions.set({ isLoading: true });
-  const randomQuestions = await getRandomQuestions(problemSet);
+  const solved = useStore.getState().questions.completedQuestions;
+  const randomQuestions = await getRandomQuestions(problemSet, solved);
 
   useStore.getState().questions.set({ randomQuestions, isLoading: false });
   sessionStorage.setItem(
