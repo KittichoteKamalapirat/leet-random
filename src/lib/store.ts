@@ -21,6 +21,7 @@ export type IStore = {
     randomQuestions: LeetcodeQuestion[];
     allQuestions: LeetcodeQuestion[];
     completedQuestions: string[]; // slug fields
+    isLoading: boolean;
   }>;
 };
 
@@ -102,6 +103,7 @@ export const useStore = create<IStore>(
         randomQuestions: [],
         allQuestions: [],
         completedQuestions: [],
+        isLoading: false,
       },
     };
 

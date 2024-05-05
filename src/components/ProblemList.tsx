@@ -69,15 +69,6 @@ const ProblemList = () => {
         </table>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 mt-12"></div>
-
-      <div className="flex justify-center items-center">
-        <button
-          onClick={getQuestions}
-          className="btn btn-primary mt-12 btn-lg mx-auto"
-        >
-          Random questions
-        </button>
-      </div>
     </div>
   );
 };

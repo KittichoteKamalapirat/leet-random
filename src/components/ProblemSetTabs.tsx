@@ -14,7 +14,11 @@ const ProblemSetTabs = ({ className, ...rest }: Props) => {
   };
 
   return (
-    <div role="tablist" className={cn("tabs tabs-boxed", className)} {...rest}>
+    <div
+      role="tablist"
+      className={cn("tabs tabs-boxed tabs-lg", className)}
+      {...rest}
+    >
       <div
         role="tab"
         className={cn(

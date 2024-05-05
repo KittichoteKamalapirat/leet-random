@@ -4,7 +4,7 @@ import { randomizeQuestions } from "../services/randomizeQuestions";
 import QuestionCard from "./QuestionCard";
 
 const SuggestedProblems = () => {
-  const { randomQuestions } = useStore((state) => state.questions);
+  const { randomQuestions, isLoading } = useStore((state) => state.questions);
   const { problemSet } = useStore((state) => state.setting);
 
   return (
@@ -29,6 +29,7 @@ const SuggestedProblems = () => {
           onClick={() => randomizeQuestions(problemSet)}
           className="btn btn-primary mt-12 btn-lg mx-auto"
         >
+          {isLoading && <span className="loading loading-spinner" />}
           Random questions
         </button>
 

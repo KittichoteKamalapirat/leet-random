@@ -2,6 +2,7 @@ import { ProblemSet } from "../lib/store";
 import { Difficulty } from "../types/Difficulty";
 import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 import { getProblemSet } from "../utils/getProblemSet";
+import { getTwoRandomNumsInRange } from "./getTwoRandomNumsInRange";
 
 export const getRandomQuestions = async (problemSet: ProblemSet) => {
   try {
@@ -17,18 +18,25 @@ export const getRandomQuestions = async (problemSet: ProblemSet) => {
       const filteredQuestions = questions.filter(
         (question) => question.difficulty === difficulty
       );
+
+      if (difficulty === "Medium") {
+        const [index1, index2] = getTwoRandomNumsInRange(
+          filteredQuestions.length
+        );
+        return [questions[index1], questions[index2]];
+      }
       const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
-      return filteredQuestions[randomIndex];
+      return [filteredQuestions[randomIndex]];
     };
 
     // Step 2 & 3: Get one random question of each difficulty
-    const easyQuestion = getRandomQuestionByDifficulty("Easy");
-    const mediumQuestion1 = getRandomQuestionByDifficulty("Medium");
-    const mediumQuestion2 = getRandomQuestionByDifficulty("Medium");
-    const hardQuestion = getRandomQuestionByDifficulty("Hard");
+    const easyQuestions = getRandomQuestionByDifficulty("Easy");
+    const mediumQuestions = getRandomQuestionByDifficulty("Medium");
+
+    const hardQuestions = getRandomQuestionByDifficulty("Hard");
 
     // Step 4: Return the selected questions in an array
-    return [easyQuestion, mediumQuestion1, mediumQuestion2, hardQuestion];
+    return [...easyQuestions, ...mediumQuestions, ...hardQuestions];
   } catch (error) {
     console.error("Error fetching or processing questions:", error);
     return []; // Return an empty array in case of error
