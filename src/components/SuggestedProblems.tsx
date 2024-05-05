@@ -9,16 +9,16 @@ const SuggestedProblems = () => {
 
   return (
     <div className="mt-12 w-full">
-      <div className="prose">
+      <div className="prose  mx-auto">
         <h1 className="text-white text-center">
           Did you solve these questions?
         </h1>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 mt-12">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-12">
         {randomQuestions?.map((problem) => (
           <QuestionCard
             key={problem.text}
-            className="bg-background-secondary px-4 py-2 my-2"
+            className="px-4 py-2"
             problem={problem}
           />
         ))}

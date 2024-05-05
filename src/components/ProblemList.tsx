@@ -4,8 +4,9 @@ import { useCallback, useEffect } from "react";
 import useStore from "../lib/store";
 import { cn } from "../utils/cn";
 import { getAllQuestions } from "../utils/getAllQuestions";
-import { getLevelColor } from "../utils/getLevelColor";
+
 import ProblemSetTabs from "./ProblemSetTabs";
+import LevelBadge from "./LevelBadge";
 
 const ProblemList = () => {
   const { allQuestions, set } = useStore((state) => state.questions);
@@ -60,14 +61,7 @@ const ProblemList = () => {
                   </a>
                 </td>
                 <td>
-                  <div
-                    className={cn(
-                      "badge badge-lg",
-                      getLevelColor(problem.difficulty)
-                    )}
-                  >
-                    {problem.difficulty}
-                  </div>
+                  <LevelBadge level={problem.difficulty} />
                 </td>
               </tr>
             ))}

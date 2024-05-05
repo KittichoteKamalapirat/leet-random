@@ -20,6 +20,7 @@ export type IStore = {
   questions: PropsWithSet<{
     randomQuestions: LeetcodeQuestion[];
     allQuestions: LeetcodeQuestion[];
+    completedQuestions: string[]; // slug fields
   }>;
 };
 
@@ -100,6 +101,7 @@ export const useStore = create<IStore>(
         }),
         randomQuestions: [],
         allQuestions: [],
+        completedQuestions: [],
       },
     };
 

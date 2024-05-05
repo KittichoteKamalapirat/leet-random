@@ -7,6 +7,8 @@ import Navbar from "../components/Navbar";
 import ProblemSetTabs from "../components/ProblemSetTabs";
 import SuggestedProblems from "../components/SuggestedProblems";
 import { randomizeQuestions } from "../services/randomizeQuestions";
+import { SessionStorage } from "../enums/SessionStorage";
+import { LocalStorage } from "../enums/LocalStorage";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,13 +23,25 @@ export default function Home() {
 
   console.log("isFirstRender.current", isFirstRender.current);
 
+  // populate completed questions
   useEffect(() => {
-    console.log("home");
+    const completedQuestions = localStorage.getItem(
+      LocalStorage.CompletedQuestions
+    );
+
+    if (completedQuestions) {
+      setQuestions({ completedQuestions: JSON.parse(completedQuestions) });
+    }
   }, []);
 
+  // populate randomQuestions(this session) and problemSet setting
   useEffect(() => {
-    const existingQuestions = sessionStorage.getItem("randomQuestions");
-    const existingProblemSet = sessionStorage.getItem("problemSet");
+    const existingQuestions = sessionStorage.getItem(
+      SessionStorage.RandomQuestions
+    );
+    const existingProblemSet = sessionStorage.getItem(
+      SessionStorage.ProblemSet
+    );
     if (existingQuestions && existingProblemSet) {
       setQuestions({ randomQuestions: JSON.parse(existingQuestions) });
       setSetting({ problemSet: existingProblemSet as ProblemSet });
@@ -49,10 +63,14 @@ export default function Home() {
   }, [problemSet]);
 
   return (
-    <main className={`flex min-h-screen flex-col p-24 ${inter.className}`}>
+    <main
+      className={`flex min-h-screen flex-col p-24 bg-base-300 ${inter.className}`}
+    >
       <Navbar />
-      <ProblemSetTabs />
-      <SuggestedProblems />
+      <div className="max-w-7xl mx-auto">
+        <ProblemSetTabs />
+        <SuggestedProblems />
+      </div>
     </main>
   );
 }

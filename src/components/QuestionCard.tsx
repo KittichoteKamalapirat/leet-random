@@ -1,12 +1,15 @@
+import { useRef, useState } from "react";
 import { FaCode, FaYoutube } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { SiLeetcode } from "react-icons/si";
+import { getSolution } from "../services/getSolution";
 import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 import { cn } from "../utils/cn";
-import { getLevelColor } from "../utils/getLevelColor";
 import CodeModal from "./CodeModal";
-import { forwardRef, useRef, useState } from "react";
-import { getSolution } from "../services/getSolution";
+import LevelBadge from "./LevelBadge";
+import Checkbox from "./Checkbox";
+import { LocalStorage } from "../enums/LocalStorage";
+import useStore from "../lib/store";
 
 interface Props {
   problem: LeetcodeQuestion;
@@ -15,15 +18,43 @@ interface Props {
 
 const QuestionCard = ({ problem, className }: Props) => {
   const { text, href, difficulty, neetLink, slug } = problem;
+  const { set: setQuestions, completedQuestions } = useStore(
+    (state) => state.questions
+  );
 
   const [solution, setSolution] = useState<string>("");
   const modalRef = useRef<HTMLDialogElement>(null);
 
+  const isCompleted = completedQuestions.some((c) => c === slug);
   const handleGetSolution = async (slug: string) => {
     // document.getElementById("solution").showModal();
     modalRef.current?.showModal();
     const content = await getSolution(slug);
     setSolution(content);
+  };
+
+  const handleMarkUnDone = async (slug: string) => {
+    if (!completedQuestions.includes(slug)) return;
+
+    const index = completedQuestions.findIndex((s) => s === slug);
+    console.log(completedQuestions);
+    completedQuestions.splice(index, 1);
+    console.log(completedQuestions);
+
+    setQuestions({ completedQuestions });
+    localStorage.setItem(
+      LocalStorage.CompletedQuestions,
+      JSON.stringify(completedQuestions)
+    );
+  };
+
+  const handleMarkDone = async (slug: string) => {
+    completedQuestions.push(slug);
+    setQuestions({ completedQuestions });
+    localStorage.setItem(
+      LocalStorage.CompletedQuestions,
+      JSON.stringify(completedQuestions)
+    );
   };
   return (
     <div
@@ -48,39 +79,45 @@ const QuestionCard = ({ problem, className }: Props) => {
             <FiExternalLink className="inline-block h-4 w-4 shrink-0 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 group-focus-visible/link:-translate-y-1 group-focus-visible/link:translate-x-1 motion-reduce:transition-none ml-1 translate-y-px" />
           </a>
         </h2>
+        <LevelBadge level={difficulty} />
 
-        {/* Youtube Link */}
-        <div className="flex gap-2">
-          <a
-            href={neetLink}
-            target="_blank"
-            aria-label={`${text}(opens in new tab))`}
-            className="z-40 inline-flex items-baseline font-medium leading-tight focus-visible:text-primary text-base"
-            rel="noreferrer noopener"
-          >
-            <FaYoutube className="hover:text-rose-500 inline-block h-6 w-6 shrink-0 transition-transform motion-reduce:transition-none ml-1 translate-y-px" />
-          </a>
-          {/* Solution */}
+        {/* Bottom control */}
+        <div className="flex justify-between">
+          {/* left */}
+          <div className="flex gap-2">
+            <a
+              href={neetLink}
+              target="_blank"
+              aria-label={`${text}(opens in new tab))`}
+              className="z-0 inline-flex items-baseline font-medium leading-tight focus-visible:text-primary text-base cursor-pointer"
+              rel="noreferrer noopener"
+            >
+              <FaYoutube className="hover:text-rose-500 inline-block h-6 w-6 shrink-0 transition-transform motion-reduce:transition-none ml-1 translate-y-px" />
+            </a>
+            {/* Solution */}
 
-          <button onClick={() => handleGetSolution(slug)}>
-            <FaCode className="hover:text-teal-400 inline-block h-6 w-6 shrink-0 transition-transform motion-reduce:transition-none ml-1 translate-y-px" />
-          </button>
+            <button onClick={() => handleGetSolution(slug)}>
+              <FaCode className="hover:text-teal-400 inline-block h-6 w-6 shrink-0 transition-transform motion-reduce:transition-none ml-1 translate-y-px" />
+            </button>
 
-          <a
-            href={href}
-            target="_blank"
-            aria-label={`${text}(opens in new tab))`}
-            className="z-40 inline-flex items-baseline font-medium leading-tight focus-visible:text-primary text-base"
-            rel="noreferrer noopener"
-          >
-            <SiLeetcode className="hover:text-amber-400 inline-block h-6 w-6 shrink-0 transition-transform motion-reduce:transition-none ml-1 translate-y-px" />
-          </a>
-        </div>
-
-        <div className="card-actions justify-end">
-          <div className={cn("badge badge-lg", getLevelColor(difficulty))}>
-            {difficulty}
+            <a
+              href={href}
+              target="_blank"
+              aria-label={`${text}(opens in new tab))`}
+              className="z-40 inline-flex items-baseline font-medium leading-tight focus-visible:text-primary text-base"
+              rel="noreferrer noopener"
+            >
+              <SiLeetcode className="hover:text-amber-400 inline-block h-6 w-6 shrink-0 transition-transform motion-reduce:transition-none ml-1 translate-y-px" />
+            </a>
           </div>
+          {/* right */}
+          <Checkbox
+            onClick={() =>
+              isCompleted ? handleMarkUnDone(slug) : handleMarkDone(slug)
+            }
+            checked={isCompleted}
+            className="z-10"
+          />
         </div>
       </div>
 
