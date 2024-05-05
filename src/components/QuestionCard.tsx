@@ -2,14 +2,14 @@ import { useRef, useState } from "react";
 import { FaCode, FaYoutube } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { SiLeetcode } from "react-icons/si";
+import { LocalStorage } from "../enums/LocalStorage";
+import useStore from "../lib/store";
 import { getSolution } from "../services/getSolution";
 import { LeetcodeQuestion } from "../types/LeetcodeQuestion";
 import { cn } from "../utils/cn";
+import Checkbox from "./Checkbox";
 import CodeModal from "./CodeModal";
 import LevelBadge from "./LevelBadge";
-import Checkbox from "./Checkbox";
-import { LocalStorage } from "../enums/LocalStorage";
-import useStore from "../lib/store";
 
 interface Props {
   problem: LeetcodeQuestion;
@@ -18,9 +18,11 @@ interface Props {
 
 const QuestionCard = ({ problem, className }: Props) => {
   const { text, href, difficulty, neetLink, slug } = problem;
-  const { set: setQuestions, completedQuestions } = useStore(
-    (state) => state.questions
-  );
+  const {
+    set: setQuestions,
+    completedQuestions,
+    randomQuestions,
+  } = useStore((state) => state.questions);
 
   const [solution, setSolution] = useState<string>("");
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -60,7 +62,7 @@ const QuestionCard = ({ problem, className }: Props) => {
     <div
       className={cn(
         "card card-compact w-96 bg-base-100 shadow-xl",
-
+        isCompleted && "ring-accent ring-2 bg-accent/20",
         className
       )}
     >

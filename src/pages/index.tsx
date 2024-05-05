@@ -1,4 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
+import { useEffect, useRef, useState } from "react";
 
 import useStore, { ProblemSet } from "../lib/store";
 
@@ -6,22 +8,30 @@ import { Inter } from "next/font/google";
 import Navbar from "../components/Navbar";
 import ProblemSetTabs from "../components/ProblemSetTabs";
 import SuggestedProblems from "../components/SuggestedProblems";
-import { randomizeQuestions } from "../services/randomizeQuestions";
-import { SessionStorage } from "../enums/SessionStorage";
 import { LocalStorage } from "../enums/LocalStorage";
+import { SessionStorage } from "../enums/SessionStorage";
+import { randomizeQuestions } from "../services/randomizeQuestions";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const { randomQuestions, set: setQuestions } = useStore(
-    (state) => state.questions
+  const {
+    completedQuestions,
+    randomQuestions,
+    set: setQuestions,
+  } = useStore((state) => state.questions);
+
+  const [runConfetti, setRunConfetti] = useState<boolean>(false);
+
+  const todaysDone = randomQuestions.every((q) =>
+    completedQuestions.includes(q.slug)
   );
+  const { width, height } = useWindowSize();
+  console.log("wid", width, height);
 
   const { problemSet, set: setSetting } = useStore((state) => state.setting);
 
   const isFirstRender = useRef(true);
-
-  console.log("isFirstRender.current", isFirstRender.current);
 
   // populate completed questions
   useEffect(() => {
@@ -62,6 +72,14 @@ export default function Home() {
     randomizeQuestions(problemSet);
   }, [problemSet]);
 
+  // confetti 5 secs
+  useEffect(() => {
+    setRunConfetti(todaysDone);
+    const timeoutId = setTimeout(() => setRunConfetti(false), 5000);
+
+    return () => clearTimeout(timeoutId);
+  }, [todaysDone]);
+
   return (
     <main
       className={`flex min-h-screen flex-col p-24 bg-base-300 ${inter.className}`}
@@ -70,6 +88,21 @@ export default function Home() {
       <div className="max-w-7xl mx-auto">
         <ProblemSetTabs />
         <SuggestedProblems />
+        {runConfetti && (
+          <Confetti
+            width={width}
+            height={height} // height * 1 is too short
+            gravity={0.2}
+            style={{ zIndex: 30 }} // seems like default is 2?,i won't overflow anyway since overflow-y hidden
+            recycle={true}
+            confettiSource={{
+              x: 0,
+              y: -height,
+              w: width,
+              h: height,
+            }}
+          />
+        )}
       </div>
     </main>
   );
