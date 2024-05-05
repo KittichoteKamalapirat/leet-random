@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cn } from "../utils/cn";
+import Image from "next/image";
 
 const Navbar = () => {
   return (
@@ -13,6 +14,12 @@ const Navbar = () => {
       <div className="navbar">
         <div className="flex-1">
           <Link href="/" className="btn btn-ghost text-xl">
+            <Image
+              src="leetrandom.svg"
+              alt="Picture of the author"
+              width={40}
+              height={40}
+            />
             LeetRandom
           </Link>
         </div>
